@@ -1,5 +1,4 @@
 import Link from "next/link"
-import Image from "next/image"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardFooter } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
@@ -26,12 +25,15 @@ export function ProductCard({ product }: ProductCardProps) {
           <div className="absolute inset-0 circuit-bg opacity-30" />
           
           {/* Product image with hover effect */}
-          <div className="relative w-full h-full transition-transform duration-500 group-hover:scale-110">
-            <Image 
+          <div className="relative w-full h-full transition-transform duration-500 group-hover:scale-110 flex items-center justify-center">
+            <img 
               src={product.image || "/placeholder.svg"} 
               alt={product.name} 
-              fill 
-              className="object-contain drop-shadow-2xl" 
+              className="max-w-full max-h-full object-contain drop-shadow-2xl" 
+              onError={(e) => {
+                const target = e.target as HTMLImageElement;
+                target.src = "/placeholder.svg";
+              }}
             />
           </div>
           

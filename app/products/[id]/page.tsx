@@ -2,7 +2,6 @@
 
 import { use } from "react"
 import { notFound } from "next/navigation"
-import Image from "next/image"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
@@ -77,8 +76,16 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
         <div className="grid lg:grid-cols-2 gap-12">
           {/* Product Image */}
           <div className="card-geek p-8 lg:p-12 rounded-2xl">
-            <div className="aspect-square relative">
-              <Image src={product.image || "/placeholder.svg"} alt={product.name} fill className="object-contain" />
+            <div className="aspect-square relative flex items-center justify-center">
+              <img 
+                src={product.image || "/placeholder.svg"} 
+                alt={product.name} 
+                className="max-w-full max-h-full object-contain"
+                onError={(e) => {
+                  const target = e.target as HTMLImageElement;
+                  target.src = "/placeholder.svg";
+                }}
+              />
             </div>
             {/* Color preview dots */}
             {needsColorSelection && (
