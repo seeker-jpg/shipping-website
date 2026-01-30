@@ -4,6 +4,7 @@ import { Geist, Geist_Mono, Poppins } from "next/font/google"
 import "./globals.css"
 import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
+import { VisitorTracker } from "@/components/visitor-tracker"
 
 const _geist = Geist({ subsets: ["latin"] })
 const _geistMono = Geist_Mono({ subsets: ["latin"] })
@@ -50,6 +51,7 @@ export default function RootLayout({
   return (
     <html lang="fr">
       <body className={`font-sans antialiased ${_poppins.variable}`}>
+        <VisitorTracker />
         <Header />
         <main>{children}</main>
         <Footer />

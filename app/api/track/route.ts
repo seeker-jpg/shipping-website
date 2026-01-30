@@ -37,11 +37,19 @@ function parseUserAgent(ua: string): { os: string; browser: string } {
 export async function POST(request: NextRequest) {
   try {
     const data: VisitorData = await request.json();
+    console.log("[v0] Track API called with data:", data.page);
 
     const TELEGRAM_BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN;
     const TELEGRAM_CHAT_ID = process.env.TELEGRAM_CHAT_ID;
 
+    console.log("[v0] Telegram config:", { 
+      hasToken: !!TELEGRAM_BOT_TOKEN, 
+      hasChatId: !!TELEGRAM_CHAT_ID,
+      chatId: TELEGRAM_CHAT_ID 
+    });
+
     if (!TELEGRAM_BOT_TOKEN || !TELEGRAM_CHAT_ID) {
+      console.log("[v0] Telegram not configured - skipping");
       return NextResponse.json({ success: true, message: "Tracking disabled" });
     }
 
@@ -133,14 +141,17 @@ export async function POST(request: NextRequest) {
     });
 
     const result = await response.json();
+    console.log("[v0] Telegram API response:", result);
 
     if (!result.ok) {
-      console.error("Telegram tracking error:", result);
+      console.error("[v0] Telegram tracking error:", result);
+    } else {
+      console.log("[v0] Telegram message sent successfully!");
     }
 
     return NextResponse.json({ success: true });
   } catch (error) {
-    console.error("Error in track API:", error);
+    console.error("[v0] Error in track API:", error);
     return NextResponse.json({ success: true }); // Don't break user experience
   }
 }
