@@ -71,7 +71,7 @@ export default function WarrantyPage() {
           <CardContent className="space-y-4 text-muted-foreground">
             <ol className="list-decimal list-inside space-y-3 ml-4">
               <li>
-                <strong className="text-foreground">Contactez-nous :</strong> Envoyez un email a <span className="text-cyan-400">support@corely.fr</span> avec votre numero de commande
+                <strong className="text-foreground">Contactez-nous :</strong> Envoyez un email a <span className="text-cyan-400">corely.shop@outlook.com</span> avec votre numero de commande
               </li>
               <li>
                 <strong className="text-foreground">Description du probleme :</strong> Decrivez precisement le dysfonctionnement rencontre
