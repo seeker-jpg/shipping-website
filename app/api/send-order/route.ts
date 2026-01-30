@@ -37,7 +37,6 @@ export async function POST(request: NextRequest) {
 
     const TELEGRAM_BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN;
     const TELEGRAM_CHAT_ID = process.env.TELEGRAM_CHAT_ID;
-    const TELEGRAM_THREAD_ID = process.env.TELEGRAM_THREAD_ID;
 
     if (!TELEGRAM_BOT_TOKEN || !TELEGRAM_CHAT_ID) {
       console.error("Telegram credentials not configured");
@@ -103,15 +102,11 @@ ${orderData.subtotal !== undefined ? `Sous-total: ${orderData.subtotal.toFixed(2
 
     const url = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`;
 
-    const payload: Record<string, unknown> = {
+    const payload = {
       chat_id: TELEGRAM_CHAT_ID,
       text: formattedMessage,
       parse_mode: "Markdown",
     };
-
-    if (TELEGRAM_THREAD_ID) {
-      payload.message_thread_id = Number.parseInt(TELEGRAM_THREAD_ID);
-    }
 
     const response = await fetch(url, {
       method: "POST",

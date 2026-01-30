@@ -42,7 +42,6 @@ export async function POST(request: Request) {
 async function handleSuccessfulPayment(session: Stripe.Checkout.Session) {
   const botToken = process.env.TELEGRAM_BOT_TOKEN;
   const chatId = process.env.TELEGRAM_CHAT_ID;
-  const threadId = process.env.TELEGRAM_THREAD_ID;
 
   if (!botToken || !chatId) return;
 
@@ -63,20 +62,14 @@ async function handleSuccessfulPayment(session: Stripe.Checkout.Session) {
 
   try {
     const url = `https://api.telegram.org/bot${botToken}/sendMessage`;
-    const body: Record<string, unknown> = {
-      chat_id: chatId,
-      text: message,
-      parse_mode: "Markdown",
-    };
-
-    if (threadId) {
-      body.message_thread_id = Number.parseInt(threadId);
-    }
-
     await fetch(url, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(body),
+      body: JSON.stringify({
+        chat_id: chatId,
+        text: message,
+        parse_mode: "Markdown",
+      }),
     });
   } catch (error) {
     console.error("Telegram notification error:", error);
@@ -86,7 +79,6 @@ async function handleSuccessfulPayment(session: Stripe.Checkout.Session) {
 async function handleFailedPayment(paymentIntent: Stripe.PaymentIntent) {
   const botToken = process.env.TELEGRAM_BOT_TOKEN;
   const chatId = process.env.TELEGRAM_CHAT_ID;
-  const threadId = process.env.TELEGRAM_THREAD_ID;
 
   if (!botToken || !chatId) return;
 
@@ -103,20 +95,14 @@ async function handleFailedPayment(paymentIntent: Stripe.PaymentIntent) {
 
   try {
     const url = `https://api.telegram.org/bot${botToken}/sendMessage`;
-    const body: Record<string, unknown> = {
-      chat_id: chatId,
-      text: message,
-      parse_mode: "Markdown",
-    };
-
-    if (threadId) {
-      body.message_thread_id = Number.parseInt(threadId);
-    }
-
     await fetch(url, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(body),
+      body: JSON.stringify({
+        chat_id: chatId,
+        text: message,
+        parse_mode: "Markdown",
+      }),
     });
   } catch (error) {
     console.error("Telegram notification error:", error);
