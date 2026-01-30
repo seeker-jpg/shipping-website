@@ -115,7 +115,7 @@ export function Footer() {
                 className="flex items-center gap-2 text-sm text-muted-foreground hover:text-purple-400 transition-colors"
               >
                 <Mail className="w-4 h-4" />
-                contact@corely.fr
+                corely.shop@outlook.com
               </a>
             </div>
           </div>
