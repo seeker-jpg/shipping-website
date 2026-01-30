@@ -9,6 +9,8 @@ export interface Product {
   brand: string
   category: string
   color?: string
+  colors?: string[]
+  models?: string[]
   features: string[]
   specifications: Record<string, string>
   stock: number
@@ -18,6 +20,8 @@ export interface Product {
 export interface CartItem {
   product: Product
   quantity: number
+  selectedColor?: string
+  selectedModel?: string
 }
 
 export interface Order {
@@ -43,326 +47,192 @@ export interface Order {
   paymentId?: string
 }
 
+// Tous les modeles iPhone disponibles
+export const iphoneModels = [
+  "iPhone 17",
+  "iPhone 17 Pro",
+  "iPhone 17 Pro Max",
+  "iPhone 17 Air",
+  "iPhone 16",
+  "iPhone 16 Pro",
+  "iPhone 16 Pro Max",
+  "iPhone 15",
+  "iPhone 15 Pro",
+  "iPhone 15 Pro Max",
+  "iPhone 14",
+  "iPhone 14 Pro",
+  "iPhone 14 Pro Max",
+  "iPhone 13",
+  "iPhone 13 Pro",
+  "iPhone 13 Pro Max",
+  "iPhone 12",
+  "iPhone 12 Pro",
+  "iPhone 12 Pro Max",
+  "iPhone 11",
+  "iPhone 11 Pro",
+  "iPhone 11 Pro Max"
+]
+
+// Toutes les couleurs de coques disponibles
+export const caseColors = [
+  { name: "Gris Taupe", hex: "#8B7D6B" },
+  { name: "Noir", hex: "#1a1a1a" },
+  { name: "Beige", hex: "#F5F5DC" },
+  { name: "Bleu Marine", hex: "#1a2744" },
+  { name: "Bleu Royal", hex: "#4169E1" },
+  { name: "Magenta", hex: "#C71585" },
+  { name: "Vert Menthe", hex: "#98FB98" },
+  { name: "Rose Pastel", hex: "#FFB6C1" },
+  { name: "Rouge", hex: "#DC143C" },
+  { name: "Lavande", hex: "#E6E6FA" },
+  { name: "Peche", hex: "#FFDAB9" },
+  { name: "Bleu Ciel", hex: "#87CEEB" },
+  { name: "Vert Fonce", hex: "#2E8B57" },
+  { name: "Blanc", hex: "#FFFFFF" }
+]
+
 // Product catalog - Accessoires mobiles Corely
 export const products: Product[] = [
-  // Coques iPhone
+  // Coques iPhone - Silicone Premium
   {
-    id: "coque-iphone-16-pro-max",
-    name: "Coque iPhone 16 Pro Max Premium",
-    description: "Coque de protection premium pour iPhone 16 Pro Max. Design elegant et protection maximale contre les chocs et les rayures.",
+    id: "coque-silicone-premium",
+    name: "Coque iPhone Silicone Premium",
+    description: "Coque de protection premium en silicone doux pour iPhone. Design elegant et protection maximale contre les chocs et les rayures. Disponible pour tous les modeles iPhone et en 14 couleurs tendance.",
     price: 4.99,
     originalPrice: 19.99,
-    image: "/coque-iphone-16-pro-max.png",
-    images: ["/coque-iphone-16-pro-max.png"],
+    image: "/images/image.png",
+    images: ["/images/image.png"],
     brand: "Corely",
     category: "Coques",
-    color: "Noir",
+    colors: caseColors.map(c => c.name),
+    models: iphoneModels,
     features: [
-      "Protection anti-choc",
-      "Design ultra-fin",
+      "Silicone premium ultra-doux",
+      "Protection anti-choc renforcee",
       "Compatible MagSafe",
-      "Materiau premium",
-      "Boutons reactifs",
+      "14 couleurs disponibles",
+      "Tous modeles iPhone",
       "Garantie 1 an"
     ],
     specifications: {
-      "Compatibilite": "iPhone 16 Pro Max",
-      "Materiau": "TPU + PC",
+      "Compatibilite": "iPhone 11 a iPhone 17",
+      "Materiau": "Silicone premium",
       "Epaisseur": "1.5mm",
       "Protection": "Anti-choc MIL-STD-810G",
       "MagSafe": "Compatible",
-      "Couleur": "Noir"
+      "Couleurs": "14 couleurs disponibles"
     },
-    stock: 127,
+    stock: 500,
     featured: true
   },
   {
-    id: "coque-iphone-15-pro-max",
-    name: "Coque iPhone 15 Pro Max Elegante",
-    description: "Coque elegante pour iPhone 15 Pro Max. Protection optimale avec un look raffine.",
+    id: "coque-transparente",
+    name: "Coque iPhone Transparente Crystal",
+    description: "Coque transparente cristalline pour iPhone. Montrez le design original de votre iPhone tout en le protegeant. Anti-jaunissement garanti.",
     price: 4.99,
     originalPrice: 19.99,
-    image: "/coque-iphone-15-pro-max.png",
-    images: ["/coque-iphone-15-pro-max.png"],
+    image: "/coque-transparente.png",
+    images: ["/coque-transparente.png"],
     brand: "Corely",
     category: "Coques",
-    color: "Noir",
+    colors: ["Transparent"],
+    models: iphoneModels,
     features: [
-      "Design minimaliste",
-      "Protection renforcee",
-      "Anti-traces de doigts",
-      "Grip ameliore",
-      "Decoupe camera precise",
+      "Transparence cristalline",
+      "Anti-jaunissement UV",
+      "Protection coins renforces",
+      "Ultra-leger 15g",
+      "Tous modeles iPhone",
       "Garantie 1 an"
     ],
     specifications: {
-      "Compatibilite": "iPhone 15 Pro Max",
-      "Materiau": "Silicone souple",
+      "Compatibilite": "iPhone 11 a iPhone 17",
+      "Materiau": "TPU premium transparent",
       "Epaisseur": "1.2mm",
-      "Protection": "Anti-rayures",
-      "Finition": "Mate soft-touch",
-      "Couleur": "Noir"
+      "Protection": "Coins air-cushion",
+      "Finition": "Crystal clear",
+      "Poids": "15g"
     },
-    stock: 89,
+    stock: 350,
     featured: true
   },
   {
-    id: "coque-iphone-12-11",
-    name: "Coque iPhone 12/11 Classic",
-    description: "Coque classique compatible iPhone 12 et iPhone 11. Protection quotidienne fiable.",
+    id: "coque-magsafe-premium",
+    name: "Coque iPhone MagSafe Premium",
+    description: "Coque avec anneau MagSafe integre pour une compatibilite parfaite avec tous les accessoires MagSafe. Charge sans fil optimisee.",
     price: 4.99,
-    originalPrice: 19.99,
-    image: "/coque-iphone-12-11.png",
-    images: ["/coque-iphone-12-11.png"],
+    originalPrice: 24.99,
+    image: "/coque-magsafe.png",
+    images: ["/coque-magsafe.png"],
     brand: "Corely",
     category: "Coques",
-    color: "Transparent",
+    colors: caseColors.map(c => c.name),
+    models: iphoneModels.filter(m => !m.includes("11")),
     features: [
-      "Compatible iPhone 12 & 11",
-      "Transparent cristal",
-      "Anti-jaunissement",
-      "Protection coins",
-      "Leger et discret",
+      "Aimants MagSafe integres",
+      "Charge sans fil optimisee",
+      "Alignement parfait",
+      "Protection premium",
+      "14 couleurs disponibles",
       "Garantie 1 an"
     ],
     specifications: {
-      "Compatibilite": "iPhone 12 / iPhone 11",
-      "Materiau": "TPU transparent",
-      "Epaisseur": "1.0mm",
-      "Protection": "Coins renforces",
-      "Finition": "Cristal transparent",
-      "Couleur": "Transparent"
+      "Compatibilite": "iPhone 12 a iPhone 17",
+      "Materiau": "Silicone + aimants N52",
+      "MagSafe": "38 aimants integres",
+      "Charge": "15W sans fil",
+      "Protection": "Anti-choc",
+      "Couleurs": "14 couleurs"
     },
-    stock: 156,
+    stock: 280,
     featured: true
-  },
-  {
-    id: "coque-noir",
-    name: "Coque Universelle Noir Mat",
-    description: "Coque noire mate universelle. Style sobre et elegant pour votre smartphone.",
-    price: 4.99,
-    originalPrice: 19.99,
-    image: "/coque-noir.png",
-    images: ["/coque-noir.png"],
-    brand: "Corely",
-    category: "Coques",
-    color: "Noir",
-    features: [
-      "Finition mate premium",
-      "Anti-traces",
-      "Grip optimal",
-      "Ultra-leger",
-      "Style minimaliste",
-      "Garantie 1 an"
-    ],
-    specifications: {
-      "Compatibilite": "Universelle",
-      "Materiau": "Silicone mat",
-      "Epaisseur": "1.2mm",
-      "Protection": "Standard",
-      "Finition": "Mate",
-      "Couleur": "Noir"
-    },
-    stock: 203,
-    featured: true
-  },
-  {
-    id: "coque-blanc",
-    name: "Coque Universelle Blanc Pur",
-    description: "Coque blanche elegante. Look frais et moderne pour personnaliser votre telephone.",
-    price: 4.99,
-    originalPrice: 19.99,
-    image: "/coque-blanc.png",
-    images: ["/coque-blanc.png"],
-    brand: "Corely",
-    category: "Coques",
-    color: "Blanc",
-    features: [
-      "Blanc immacule",
-      "Facile a nettoyer",
-      "Resistant aux UV",
-      "Design epure",
-      "Touch doux",
-      "Garantie 1 an"
-    ],
-    specifications: {
-      "Compatibilite": "Universelle",
-      "Materiau": "Silicone premium",
-      "Epaisseur": "1.2mm",
-      "Protection": "Standard",
-      "Finition": "Satinee",
-      "Couleur": "Blanc"
-    },
-    stock: 178,
-    featured: false
-  },
-  {
-    id: "coque-rose",
-    name: "Coque Universelle Rose Pastel",
-    description: "Coque rose pastel tendance. Couleur douce et feminine pour sublimer votre smartphone.",
-    price: 4.99,
-    originalPrice: 19.99,
-    image: "/coque-rose.png",
-    images: ["/coque-rose.png"],
-    brand: "Corely",
-    category: "Coques",
-    color: "Rose",
-    features: [
-      "Rose pastel tendance",
-      "Couleur stable",
-      "Toucher velours",
-      "Style feminin",
-      "Ultra-doux",
-      "Garantie 1 an"
-    ],
-    specifications: {
-      "Compatibilite": "Universelle",
-      "Materiau": "Silicone soft",
-      "Epaisseur": "1.2mm",
-      "Protection": "Standard",
-      "Finition": "Velours",
-      "Couleur": "Rose pastel"
-    },
-    stock: 134,
-    featured: false
-  },
-  {
-    id: "coque-bleu-marine",
-    name: "Coque Universelle Bleu Marine",
-    description: "Coque bleu marine sophistiquee. Couleur classique et intemporelle.",
-    price: 4.99,
-    originalPrice: 19.99,
-    image: "/coque-bleu-marine.png",
-    images: ["/coque-bleu-marine.png"],
-    brand: "Corely",
-    category: "Coques",
-    color: "Bleu Marine",
-    features: [
-      "Bleu marine elegant",
-      "Style professionnel",
-      "Resistant aux taches",
-      "Grip securise",
-      "Finition premium",
-      "Garantie 1 an"
-    ],
-    specifications: {
-      "Compatibilite": "Universelle",
-      "Materiau": "Silicone premium",
-      "Epaisseur": "1.2mm",
-      "Protection": "Standard",
-      "Finition": "Satinee",
-      "Couleur": "Bleu marine"
-    },
-    stock: 145,
-    featured: false
-  },
-  {
-    id: "coque-rouge",
-    name: "Coque Universelle Rouge Passion",
-    description: "Coque rouge passion audacieuse. Pour ceux qui osent la couleur!",
-    price: 4.99,
-    originalPrice: 19.99,
-    image: "/coque-rouge.png",
-    images: ["/coque-rouge.png"],
-    brand: "Corely",
-    category: "Coques",
-    color: "Rouge",
-    features: [
-      "Rouge vif intense",
-      "Style audacieux",
-      "Couleur durable",
-      "Anti-derapant",
-      "Impact visuel",
-      "Garantie 1 an"
-    ],
-    specifications: {
-      "Compatibilite": "Universelle",
-      "Materiau": "Silicone premium",
-      "Epaisseur": "1.2mm",
-      "Protection": "Standard",
-      "Finition": "Brillante",
-      "Couleur": "Rouge"
-    },
-    stock: 98,
-    featured: false
-  },
-  {
-    id: "coque-vert",
-    name: "Coque Universelle Vert Nature",
-    description: "Coque verte naturelle. Inspiree de la nature pour un style eco-friendly.",
-    price: 4.99,
-    originalPrice: 19.99,
-    image: "/coque-vert.png",
-    images: ["/coque-vert.png"],
-    brand: "Corely",
-    category: "Coques",
-    color: "Vert",
-    features: [
-      "Vert nature apaisant",
-      "Style eco-friendly",
-      "Materiau durable",
-      "Confort optimal",
-      "Design organique",
-      "Garantie 1 an"
-    ],
-    specifications: {
-      "Compatibilite": "Universelle",
-      "Materiau": "Silicone bio",
-      "Epaisseur": "1.2mm",
-      "Protection": "Standard",
-      "Finition": "Mate naturelle",
-      "Couleur": "Vert"
-    },
-    stock: 112,
-    featured: false
-  },
-  {
-    id: "coque-violet",
-    name: "Coque Universelle Violet Mystique",
-    description: "Coque violette mystique. Couleur unique et originale pour se demarquer.",
-    price: 4.99,
-    originalPrice: 19.99,
-    image: "/coque-violet.png",
-    images: ["/coque-violet.png"],
-    brand: "Corely",
-    category: "Coques",
-    color: "Violet",
-    features: [
-      "Violet mystique",
-      "Style unique",
-      "Couleur profonde",
-      "Toucher agreable",
-      "Look premium",
-      "Garantie 1 an"
-    ],
-    specifications: {
-      "Compatibilite": "Universelle",
-      "Materiau": "Silicone premium",
-      "Epaisseur": "1.2mm",
-      "Protection": "Standard",
-      "Finition": "Satinee",
-      "Couleur": "Violet"
-    },
-    stock: 87,
-    featured: false
   },
   // Cables
   {
+    id: "cable-usb-c-lightning-1m",
+    name: "Cable USB-C vers Lightning 1m",
+    description: "Cable de charge rapide USB-C vers Lightning 1 metre. Charge rapide 20W pour tous les iPhone.",
+    price: 2.99,
+    originalPrice: 14.99,
+    image: "/cable-lightning-1m.png",
+    images: ["/cable-lightning-1m.png"],
+    brand: "Corely",
+    category: "Cables",
+    features: [
+      "Charge rapide 20W",
+      "Longueur 1 metre",
+      "Transfert donnees 480Mbps",
+      "Cable tresse renforce",
+      "Connecteurs aluminium",
+      "Garantie 2 ans"
+    ],
+    specifications: {
+      "Longueur": "1 metre",
+      "Connecteurs": "USB-C vers Lightning",
+      "Puissance": "20W max",
+      "Transfert": "480 Mbps",
+      "Materiau": "Nylon tresse",
+      "Compatibilite": "iPhone 8 et plus"
+    },
+    stock: 450,
+    featured: true
+  },
+  {
     id: "cable-usb-c-lightning-2m",
     name: "Cable USB-C vers Lightning 2m",
-    description: "Cable de charge rapide USB-C vers Lightning 2 metres. Parfait pour iPhone avec charge rapide 20W.",
-    price: 4.99,
+    description: "Cable de charge rapide USB-C vers Lightning 2 metres. Extra long pour plus de confort. Charge rapide 20W.",
+    price: 3.99,
     originalPrice: 19.99,
-    image: "/cable-usb-c-lightning-2m.png",
-    images: ["/cable-usb-c-lightning-2m.png"],
+    image: "/cable-lightning-2m.png",
+    images: ["/cable-lightning-2m.png"],
     brand: "Corely",
     category: "Cables",
     features: [
       "Charge rapide 20W",
       "Longueur 2 metres",
-      "Transfert donnees",
+      "Extra long confortable",
       "Tresse nylon renforcee",
-      "Connecteurs aluminium",
+      "Connecteurs dores",
       "Garantie 2 ans"
     ],
     specifications: {
@@ -370,69 +240,185 @@ export const products: Product[] = [
       "Connecteurs": "USB-C vers Lightning",
       "Puissance": "20W max",
       "Transfert": "480 Mbps",
-      "Materiau": "Nylon tresse",
+      "Materiau": "Nylon tresse premium",
       "Compatibilite": "iPhone 8 et plus"
     },
-    stock: 234,
+    stock: 380,
     featured: true
   },
   {
-    id: "cable-usbc-60w",
-    name: "Cable USB-C 60W Ultra Rapide",
-    description: "Cable USB-C vers USB-C 60W pour charge ultra rapide. Compatible MacBook, iPad, Samsung et plus.",
-    price: 4.99,
-    originalPrice: 19.99,
-    image: "/cable-usbc-60w.png",
-    images: ["/cable-usbc-60w.png"],
+    id: "cable-usbc-usbc-1m",
+    name: "Cable USB-C vers USB-C 1m 60W",
+    description: "Cable USB-C vers USB-C 1 metre. Charge rapide 60W Power Delivery. Compatible iPhone 15+, iPad, MacBook, Samsung.",
+    price: 2.99,
+    originalPrice: 14.99,
+    image: "/cable-usbc-1m.png",
+    images: ["/cable-usbc-1m.png"],
     brand: "Corely",
     category: "Cables",
     features: [
-      "Charge 60W ultra rapide",
-      "USB-C vers USB-C",
-      "Compatible Power Delivery",
-      "Cable renforce",
+      "Charge 60W PD",
+      "Longueur 1 metre",
       "Transfert 10Gbps",
+      "Universal USB-C",
+      "Cable renforce",
       "Garantie 2 ans"
     ],
     specifications: {
-      "Longueur": "1.5 metres",
+      "Longueur": "1 metre",
       "Connecteurs": "USB-C vers USB-C",
-      "Puissance": "60W PD",
+      "Puissance": "60W PD 3.0",
       "Transfert": "10 Gbps USB 3.1",
       "Materiau": "PVC renforce",
       "Compatibilite": "Universelle USB-C"
     },
-    stock: 189,
-    featured: true
+    stock: 420,
+    featured: false
   },
-  // Chargeurs
   {
-    id: "chargeur-40w-usb-c",
-    name: "Chargeur Mural 40W Double USB-C",
-    description: "Chargeur mural compact 40W avec double port USB-C. Chargez deux appareils simultanement a pleine vitesse.",
-    price: 4.99,
+    id: "cable-usbc-usbc-2m",
+    name: "Cable USB-C vers USB-C 2m 60W",
+    description: "Cable USB-C vers USB-C 2 metres extra long. Charge rapide 60W Power Delivery pour tous vos appareils USB-C.",
+    price: 3.99,
     originalPrice: 19.99,
-    image: "/chargeur-40w-usb-c.png",
-    images: ["/chargeur-40w-usb-c.png"],
+    image: "/cable-usbc-2m.png",
+    images: ["/cable-usbc-2m.png"],
     brand: "Corely",
-    category: "Chargeurs",
+    category: "Cables",
     features: [
-      "40W puissance totale",
-      "Double USB-C",
-      "Charge deux appareils",
-      "Compact et leger",
-      "Protection surcharge",
+      "Charge 60W PD",
+      "Longueur 2 metres",
+      "Extra long confortable",
+      "Transfert 10Gbps",
+      "Cable premium",
       "Garantie 2 ans"
     ],
     specifications: {
-      "Puissance": "40W total (20W x2)",
+      "Longueur": "2 metres",
+      "Connecteurs": "USB-C vers USB-C",
+      "Puissance": "60W PD 3.0",
+      "Transfert": "10 Gbps USB 3.1",
+      "Materiau": "Nylon tresse",
+      "Compatibilite": "Universelle USB-C"
+    },
+    stock: 310,
+    featured: false
+  },
+  // Chargeurs
+  {
+    id: "chargeur-20w-usb-c",
+    name: "Chargeur Mural 20W USB-C",
+    description: "Chargeur mural compact 20W USB-C. Charge rapide Power Delivery pour iPhone et autres appareils. Ultra compact.",
+    price: 9.99,
+    originalPrice: 29.99,
+    image: "/chargeur-20w.png",
+    images: ["/chargeur-20w.png"],
+    brand: "Corely",
+    category: "Chargeurs",
+    features: [
+      "20W charge rapide",
+      "USB-C Power Delivery",
+      "Ultra compact",
+      "Protection intelligente",
+      "Compatible universel",
+      "Garantie 2 ans"
+    ],
+    specifications: {
+      "Puissance": "20W",
+      "Ports": "1x USB-C",
+      "Entree": "100-240V AC",
+      "Protocoles": "PD 3.0, QC 3.0",
+      "Dimensions": "30 x 30 x 30mm",
+      "Securite": "Multi-protection 6 niveaux"
+    },
+    stock: 290,
+    featured: true
+  },
+  {
+    id: "chargeur-35w-dual-usbc",
+    name: "Chargeur Mural 35W Double USB-C",
+    description: "Chargeur mural 35W avec double port USB-C. Chargez deux appareils simultanement. Ideal pour iPhone + AirPods ou iPhone + Apple Watch.",
+    price: 9.99,
+    originalPrice: 34.99,
+    image: "/chargeur-35w-dual.png",
+    images: ["/chargeur-35w-dual.png"],
+    brand: "Corely",
+    category: "Chargeurs",
+    features: [
+      "35W puissance totale",
+      "Double USB-C",
+      "Charge 2 appareils",
+      "GaN Technology",
+      "Compact et leger",
+      "Garantie 2 ans"
+    ],
+    specifications: {
+      "Puissance": "35W (20W+15W ou 17.5W+17.5W)",
       "Ports": "2x USB-C",
       "Entree": "100-240V AC",
-      "Protocoles": "PD 3.0, QC 4.0",
-      "Dimensions": "45 x 45 x 28mm",
-      "Securite": "Multi-protection"
+      "Protocoles": "PD 3.0, PPS",
+      "Technologie": "GaN III",
+      "Securite": "Protection surcharge"
     },
-    stock: 156,
+    stock: 220,
+    featured: true
+  },
+  {
+    id: "chargeur-65w-gan",
+    name: "Chargeur GaN 65W Triple Port",
+    description: "Chargeur GaN ultra-puissant 65W avec 2 USB-C + 1 USB-A. Chargez MacBook, iPhone et AirPods en meme temps!",
+    price: 9.99,
+    originalPrice: 49.99,
+    image: "/chargeur-65w-gan.png",
+    images: ["/chargeur-65w-gan.png"],
+    brand: "Corely",
+    category: "Chargeurs",
+    features: [
+      "65W puissance max",
+      "2x USB-C + 1x USB-A",
+      "Technologie GaN III",
+      "Charge MacBook Pro",
+      "Ultra compact",
+      "Garantie 2 ans"
+    ],
+    specifications: {
+      "Puissance": "65W max",
+      "Ports": "2x USB-C + 1x USB-A",
+      "Entree": "100-240V AC",
+      "Protocoles": "PD 3.0, QC 4.0, PPS",
+      "Technologie": "GaN III",
+      "Compatibilite": "MacBook, iPhone, iPad, Samsung"
+    },
+    stock: 180,
+    featured: true
+  },
+  {
+    id: "chargeur-magsafe-15w",
+    name: "Chargeur MagSafe Sans Fil 15W",
+    description: "Chargeur sans fil MagSafe 15W pour iPhone. Alignement magnetique parfait, charge rapide sans fil optimisee.",
+    price: 9.99,
+    originalPrice: 39.99,
+    image: "/chargeur-magsafe.png",
+    images: ["/chargeur-magsafe.png"],
+    brand: "Corely",
+    category: "Chargeurs",
+    features: [
+      "15W charge sans fil",
+      "Aimants MagSafe",
+      "Alignement parfait",
+      "LED indicateur",
+      "Cable 1.5m inclus",
+      "Garantie 2 ans"
+    ],
+    specifications: {
+      "Puissance": "15W (MagSafe) / 7.5W (Qi)",
+      "Type": "Sans fil magnetique",
+      "Compatibilite": "iPhone 12 et plus",
+      "Cable": "USB-C 1.5m inclus",
+      "LED": "Indicateur de charge",
+      "Securite": "Anti-surchauffe"
+    },
+    stock: 165,
     featured: true
   }
 ]
@@ -450,10 +436,6 @@ export function getFeaturedProducts(): Product[] {
   return products.filter((p) => p.featured)
 }
 
-export function getProductsByBrand(brand: string): Product[] {
-  return products.filter((p) => p.brand.toLowerCase() === brand.toLowerCase())
-}
-
 export function getProductsByCategory(category: string): Product[] {
   return products.filter((p) => p.category.toLowerCase() === category.toLowerCase())
 }
@@ -468,7 +450,6 @@ export function searchProducts(query: string): Product[] {
   )
 }
 
-// Generate order number
 export function generateOrderNumber(): string {
   const timestamp = Date.now().toString(36).toUpperCase()
   const random = Math.random().toString(36).substring(2, 6).toUpperCase()
