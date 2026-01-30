@@ -1,127 +1,156 @@
-"use client"
+"use client";
 
-import { useEffect, useState, Suspense } from "react"
-import { useSearchParams } from "next/navigation"
-import Link from "next/link"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent } from "@/components/ui/card"
-import { useOrderStore } from "@/lib/order-store"
-import { CheckCircle2, Package, Mail, ArrowRight } from "lucide-react"
+import { useEffect, useState, Suspense } from "react";
+import { useSearchParams } from "next/navigation";
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import { useOrderStore } from "@/lib/order-store";
+import { useCartStore } from "@/lib/cart-store";
+import { CheckCircle2, Package, Mail, ArrowRight, Sparkles } from "lucide-react";
 
 function SuccessContent() {
-  const searchParams = useSearchParams()
-  const orderNumber = searchParams.get("order")
-  const { getOrderByNumber } = useOrderStore()
-  const [order, setOrder] = useState(getOrderByNumber(orderNumber || ""))
+  const searchParams = useSearchParams();
+  const orderNumber = searchParams.get("order");
+  const sessionId = searchParams.get("session_id");
+  const { getOrderByNumber } = useOrderStore();
+  const { clearCart } = useCartStore();
+  const [order, setOrder] = useState(getOrderByNumber(orderNumber || ""));
 
   useEffect(() => {
+    // Clear cart on success
+    clearCart();
+    
     if (orderNumber) {
-      setOrder(getOrderByNumber(orderNumber))
+      setOrder(getOrderByNumber(orderNumber));
     }
-  }, [orderNumber, getOrderByNumber])
+  }, [orderNumber, getOrderByNumber, clearCart]);
 
-  if (!order) {
-    return (
-      <div className="min-h-screen bg-slate-50 flex items-center justify-center">
-        <Card className="max-w-md w-full">
-          <CardContent className="p-12 text-center">
-            <p className="text-slate-600 mb-4">Order not found</p>
-            <Button asChild>
-              <Link href="/products">Continue Shopping</Link>
-            </Button>
+  const displayOrderNumber = orderNumber || sessionId?.slice(-12).toUpperCase() || "N/A";
+
+  return (
+    <div className="min-h-screen flex items-center justify-center px-4 py-12">
+      <div className="max-w-lg w-full">
+        <Card className="border-green-500/30 bg-card/50 backdrop-blur overflow-hidden">
+          <div className="h-2 bg-gradient-to-r from-green-500 to-emerald-500" />
+          <CardContent className="p-8 text-center">
+            {/* Success Icon */}
+            <div className="relative mx-auto w-20 h-20 mb-6">
+              <div className="absolute inset-0 bg-green-500/20 rounded-full animate-ping" />
+              <div className="relative w-full h-full bg-gradient-to-br from-green-500 to-emerald-500 rounded-full flex items-center justify-center">
+                <CheckCircle2 className="w-10 h-10 text-white" />
+              </div>
+            </div>
+
+            {/* Title */}
+            <h1 className="text-3xl font-bold mb-2">
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-emerald-400">
+                Merci pour votre commande !
+              </span>
+            </h1>
+            <p className="text-muted-foreground mb-8">
+              Votre paiement a ete confirme avec succes.
+            </p>
+
+            {/* Order Info */}
+            <div className="bg-muted/30 rounded-xl p-6 mb-8 space-y-4">
+              <div className="flex items-center justify-between text-sm">
+                <span className="text-muted-foreground">Numero de commande</span>
+                <span className="font-mono text-xs bg-background/50 px-2 py-1 rounded">
+                  {displayOrderNumber}
+                </span>
+              </div>
+              
+              <div className="flex items-center gap-3 text-left">
+                <div className="w-10 h-10 rounded-lg bg-purple-500/20 flex items-center justify-center">
+                  <Mail className="w-5 h-5 text-purple-400" />
+                </div>
+                <div>
+                  <p className="font-medium text-sm">Email de confirmation</p>
+                  <p className="text-xs text-muted-foreground">
+                    {order?.shippingDetails?.email || "Vous recevrez un email avec les details"}
+                  </p>
+                </div>
+              </div>
+
+              <div className="flex items-center gap-3 text-left">
+                <div className="w-10 h-10 rounded-lg bg-cyan-500/20 flex items-center justify-center">
+                  <Package className="w-5 h-5 text-cyan-400" />
+                </div>
+                <div>
+                  <p className="font-medium text-sm">Livraison estimee</p>
+                  <p className="text-xs text-muted-foreground">
+                    3-5 jours ouvrables en France metropolitaine
+                  </p>
+                </div>
+              </div>
+
+              <div className="flex items-center gap-3 text-left">
+                <div className="w-10 h-10 rounded-lg bg-pink-500/20 flex items-center justify-center">
+                  <Sparkles className="w-5 h-5 text-pink-400" />
+                </div>
+                <div>
+                  <p className="font-medium text-sm">Suivi de commande</p>
+                  <p className="text-xs text-muted-foreground">
+                    Vous recevrez un numero de suivi par email
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* Actions */}
+            <div className="space-y-3">
+              <Button asChild className="w-full bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700">
+                <Link href="/orders">
+                  Suivre ma commande
+                  <ArrowRight className="w-4 h-4 ml-2" />
+                </Link>
+              </Button>
+              <Button asChild variant="outline" className="w-full border-purple-500/30 hover:bg-purple-500/10 bg-transparent">
+                <Link href="/products">
+                  Continuer mes achats
+                </Link>
+              </Button>
+            </div>
+
+            {/* Support */}
+            <p className="text-xs text-muted-foreground mt-6">
+              Une question ? Contactez-nous sur{" "}
+              <a
+                href={process.env.NEXT_PUBLIC_WHATSAPP || "https://wa.me/+33756964995"}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-green-400 hover:underline"
+              >
+                WhatsApp
+              </a>
+              {" "}ou{" "}
+              <a
+                href={`https://instagram.com/${process.env.NEXT_PUBLIC_INSTAGRAM || "corely.shop"}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-pink-400 hover:underline"
+              >
+                Instagram
+              </a>
+            </p>
           </CardContent>
         </Card>
       </div>
-    )
-  }
-
-  return (
-    <div className="min-h-screen bg-slate-50">
-      <div className="container mx-auto px-4 py-16">
-        <div className="max-w-2xl mx-auto">
-          <Card>
-            <CardContent className="p-12 text-center">
-              <div className="w-20 h-20 rounded-full bg-green-100 flex items-center justify-center mx-auto mb-6">
-                <CheckCircle2 className="w-12 h-12 text-green-600" />
-              </div>
-
-              <h1 className="text-3xl font-bold mb-4">Order Confirmed!</h1>
-
-              <p className="text-lg text-slate-600 mb-8">
-                Thank you for your purchase. Your order has been received and is being processed.
-              </p>
-
-              <div className="bg-slate-50 rounded-lg p-6 mb-8">
-                <p className="text-sm text-slate-600 mb-2">Order Number</p>
-                <p className="text-2xl font-bold text-orange-600">{order.orderNumber}</p>
-              </div>
-
-              <div className="grid md:grid-cols-2 gap-6 mb-8 text-left">
-                <div className="flex items-start gap-3">
-                  <div className="w-10 h-10 rounded-full bg-orange-100 flex items-center justify-center flex-shrink-0">
-                    <Mail className="w-5 h-5 text-orange-600" />
-                  </div>
-                  <div>
-                    <h3 className="font-semibold mb-1">Confirmation Email</h3>
-                    <p className="text-sm text-slate-600">
-                      A confirmation email has been sent to {order.shippingDetails.email}
-                    </p>
-                  </div>
-                </div>
-
-                <div className="flex items-start gap-3">
-                  <div className="w-10 h-10 rounded-full bg-orange-100 flex items-center justify-center flex-shrink-0">
-                    <Package className="w-5 h-5 text-orange-600" />
-                  </div>
-                  <div>
-                    <h3 className="font-semibold mb-1">Shipping Address</h3>
-                    <p className="text-sm text-slate-600">
-                      {order.shippingDetails.address}, {order.shippingDetails.city}, {order.shippingDetails.state}{" "}
-                      {order.shippingDetails.zipCode}
-                    </p>
-                  </div>
-                </div>
-              </div>
-
-              <div className="space-y-3">
-                <Button size="lg" className="w-full" asChild>
-                  <Link href={`/orders?order=${order.orderNumber}`}>
-                    Track Your Order
-                    <ArrowRight className="w-4 h-4 ml-2" />
-                  </Link>
-                </Button>
-
-                <Button size="lg" variant="outline" className="w-full bg-transparent" asChild>
-                  <Link href="/products">Continue Shopping</Link>
-                </Button>
-              </div>
-            </CardContent>
-          </Card>
-
-          <div className="mt-8 text-center">
-            <p className="text-sm text-slate-600">
-              Need help?{" "}
-              <Link href="/contact" className="text-orange-600 hover:underline">
-                Contact our support team
-              </Link>
-            </p>
-          </div>
-        </div>
-      </div>
     </div>
-  )
+  );
 }
 
 export default function CheckoutSuccessPage() {
   return (
     <Suspense
       fallback={
-        <div className="min-h-screen bg-slate-50 flex items-center justify-center">
-          <div className="text-center">Loading...</div>
+        <div className="min-h-screen flex items-center justify-center">
+          <div className="text-center">Chargement...</div>
         </div>
       }
     >
       <SuccessContent />
     </Suspense>
-  )
+  );
 }
