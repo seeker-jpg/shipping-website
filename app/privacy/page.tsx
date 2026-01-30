@@ -79,7 +79,7 @@ export default function PrivacyPage() {
               <li>Droit a la portabilite des donnees</li>
             </ul>
             <p className="mt-4">
-              Pour exercer ces droits, contactez-nous a : <strong className="text-purple-400">privacy@corely.fr</strong>
+              Pour exercer ces droits, contactez-nous a : <strong className="text-purple-400">corely.shop@outlook.com</strong>
             </p>
           </CardContent>
         </Card>
