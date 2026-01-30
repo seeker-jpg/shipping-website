@@ -33,7 +33,7 @@ export default function PrivacyPage() {
               <li>Adresse email</li>
               <li>Numero de telephone</li>
               <li>Adresse de livraison</li>
-              <li>Informations de paiement (traitees de maniere securisee par PayPal)</li>
+              <li>Informations de paiement (traitees de maniere securisee par Stripe ou PayPal)</li>
             </ul>
           </CardContent>
         </Card>
@@ -59,8 +59,7 @@ export default function PrivacyPage() {
           </CardHeader>
           <CardContent className="space-y-4 text-muted-foreground">
             <p>
-              Nous utilisons des mesures de securite de pointe pour proteger vos donnees personnelles. Toutes les
-              transactions sont cryptees via SSL et les paiements sont traites de maniere securisee par PayPal.
+              Nous utilisons des mesures de securite de pointe pour proteger vos donnees personnelles. Toutes les transactions sont cryptees via SSL et les paiements sont traites de maniere securisées.
             </p>
           </CardContent>
         </Card>
@@ -79,7 +78,7 @@ export default function PrivacyPage() {
               <li>Droit a la portabilite des donnees</li>
             </ul>
             <p className="mt-4">
-              Pour exercer ces droits, contactez-nous a : <strong className="text-purple-400">privacy@corely.fr</strong>
+              Pour exercer ces droits, contactez-nous a : <strong className="text-purple-400">corely.shop@outlook.com</strong>
             </p>
           </CardContent>
         </Card>

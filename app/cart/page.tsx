@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Separator } from "@/components/ui/separator"
 import { useCartStore } from "@/lib/cart-store"
-import { Trash2, Plus, Minus, ShoppingBag, ArrowRight, Truck, Shield, Zap, HardDrive } from "lucide-react"
+import { Trash2, Plus, Minus, ShoppingBag, ArrowRight, Truck, Shield, Zap, Smartphone } from "lucide-react"
 
 export default function CartPage() {
   const { items, removeItem, updateQuantity, getTotal, clearCart } = useCartStore()
@@ -34,7 +34,7 @@ export default function CartPage() {
             className="btn-cyber bg-gradient-to-r from-purple-600 to-cyan-600 font-bold"
           >
             <Link href="/products">
-              <HardDrive className="w-5 h-5 mr-2" />
+              <Smartphone className="w-5 h-5 mr-2" />
               Voir les Produits
             </Link>
           </Button>
@@ -76,8 +76,8 @@ export default function CartPage() {
               </Button>
             </div>
 
-            {items.map((item) => (
-              <Card key={item.product.id} className="card-geek border-purple-500/20">
+            {items.map((item, index) => (
+              <Card key={`${item.product.id}-${item.selectedColor}-${item.selectedModel}-${index}`} className="card-geek border-purple-500/20">
                 <CardContent className="p-4 md:p-6">
                   <div className="flex gap-4 md:gap-6">
                     <div className="w-20 h-20 md:w-24 md:h-24 relative bg-gradient-to-br from-purple-500/10 to-cyan-500/10 rounded-xl flex-shrink-0 border border-purple-500/20">
@@ -98,14 +98,26 @@ export default function CartPage() {
                           >
                             <h3 className="font-bold text-base md:text-lg text-foreground line-clamp-1">{item.product.name}</h3>
                           </Link>
-                          <p className="text-xs md:text-sm text-muted-foreground">
-                            {item.product.brand} - {item.product.capacity}
+                          <div className="flex flex-wrap gap-2 mt-1">
+                            {item.selectedModel && (
+                              <span className="text-xs bg-cyan-500/20 text-cyan-400 px-2 py-1 rounded-full font-medium">
+                                {item.selectedModel}
+                              </span>
+                            )}
+                            {item.selectedColor && (
+                              <span className="text-xs bg-purple-500/20 text-purple-400 px-2 py-1 rounded-full font-medium">
+                                {item.selectedColor}
+                              </span>
+                            )}
+                          </div>
+                          <p className="text-xs md:text-sm text-muted-foreground mt-1">
+                            {item.product.brand} - {item.product.category}
                           </p>
                         </div>
                         <Button 
                           variant="ghost" 
                           size="icon" 
-                          onClick={() => removeItem(item.product.id)}
+                          onClick={() => removeItem(item.product.id, item.selectedColor, item.selectedModel)}
                           className="text-red-400 hover:text-red-300 hover:bg-red-500/10 flex-shrink-0"
                         >
                           <Trash2 className="w-4 h-4" />
@@ -117,7 +129,7 @@ export default function CartPage() {
                           <Button
                             variant="ghost"
                             size="sm"
-                            onClick={() => updateQuantity(item.product.id, item.quantity - 1)}
+                            onClick={() => updateQuantity(item.product.id, item.quantity - 1, item.selectedColor, item.selectedModel)}
                             disabled={item.quantity <= 1}
                             className="text-foreground hover:bg-purple-500/20"
                           >
@@ -127,7 +139,7 @@ export default function CartPage() {
                           <Button
                             variant="ghost"
                             size="sm"
-                            onClick={() => updateQuantity(item.product.id, item.quantity + 1)}
+                            onClick={() => updateQuantity(item.product.id, item.quantity + 1, item.selectedColor, item.selectedModel)}
                             disabled={item.quantity >= item.product.stock}
                             className="text-foreground hover:bg-purple-500/20"
                           >

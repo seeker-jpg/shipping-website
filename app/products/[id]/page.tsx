@@ -8,7 +8,8 @@ import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Card, CardContent } from "@/components/ui/card"
 import { Separator } from "@/components/ui/separator"
-import { getProductById } from "@/lib/db"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { getProductById, caseColors, iphoneModels } from "@/lib/db"
 import { useCartStore } from "@/lib/cart-store"
 import { ShoppingCart, Check, Truck, Shield, ArrowLeft, Zap, Package, Star, Smartphone } from "lucide-react"
 import { useState } from "react"
@@ -20,6 +21,8 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
   const addItem = useCartStore((state) => state.addItem)
   const [quantity, setQuantity] = useState(1)
   const [addedToCart, setAddedToCart] = useState(false)
+  const [selectedColor, setSelectedColor] = useState<string>("")
+  const [selectedModel, setSelectedModel] = useState<string>("")
   const router = useRouter()
 
   if (!product) {
@@ -28,7 +31,7 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
 
   const handleAddToCart = () => {
     for (let i = 0; i < quantity; i++) {
-      addItem(product)
+      addItem(product, selectedColor, selectedModel)
     }
     setAddedToCart(true)
     setTimeout(() => setAddedToCart(false), 2000)
@@ -36,13 +39,18 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
 
   const handleBuyNow = () => {
     for (let i = 0; i < quantity; i++) {
-      addItem(product)
+      addItem(product, selectedColor, selectedModel)
     }
     router.push("/checkout")
   }
 
   const savings = product.originalPrice ? product.originalPrice - product.price : 0
   const savingsPercent = product.originalPrice ? Math.round((savings / product.originalPrice) * 100) : 0
+
+  // Check if product needs color or model selection
+  const needsColorSelection = product.colors && product.colors.length > 1
+  const needsModelSelection = product.models && product.models.length > 0
+  const canPurchase = (!needsColorSelection || selectedColor) && (!needsModelSelection || selectedModel)
 
   return (
     <div className="min-h-screen circuit-bg">
@@ -72,15 +80,30 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
             <div className="aspect-square relative">
               <Image src={product.image || "/placeholder.svg"} alt={product.name} fill className="object-contain" />
             </div>
+            {/* Color preview dots */}
+            {needsColorSelection && (
+              <div className="flex flex-wrap justify-center gap-2 mt-6">
+                {caseColors.slice(0, 14).map((color) => (
+                  <button
+                    key={color.name}
+                    onClick={() => setSelectedColor(color.name)}
+                    className={`w-8 h-8 rounded-full border-2 transition-all ${
+                      selectedColor === color.name 
+                        ? "border-cyan-400 scale-110 ring-2 ring-cyan-400/50" 
+                        : "border-gray-600 hover:border-purple-400"
+                    }`}
+                    style={{ backgroundColor: color.hex }}
+                    title={color.name}
+                  />
+                ))}
+              </div>
+            )}
           </div>
 
           {/* Product Details */}
           <div>
             <div className="mb-4 flex flex-wrap gap-2">
               <Badge className="bg-gradient-to-r from-purple-600 to-purple-700 text-white font-bold">{product.category}</Badge>
-              {product.color && (
-                <Badge className="bg-gradient-to-r from-cyan-600 to-blue-600 text-white font-bold">{product.color}</Badge>
-              )}
               {product.stock < 50 && (
                 <Badge className="bg-gradient-to-r from-orange-500 to-red-500 text-white font-bold animate-pulse">
                   Plus que {product.stock} en stock!
@@ -131,6 +154,52 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
               </p>
             </div>
 
+            {/* Model Selector */}
+            {needsModelSelection && (
+              <div className="mb-6">
+                <label className="block text-sm font-medium mb-3 text-purple-400 flex items-center gap-2">
+                  <Smartphone className="w-4 h-4" />
+                  Modele iPhone *
+                </label>
+                <Select value={selectedModel} onValueChange={setSelectedModel}>
+                  <SelectTrigger className="w-full bg-background/50 border-purple-500/30 text-foreground">
+                    <SelectValue placeholder="Selectionnez votre modele iPhone" />
+                  </SelectTrigger>
+                  <SelectContent className="bg-background border-purple-500/30 max-h-[300px]">
+                    {(product.models || iphoneModels).map((model) => (
+                      <SelectItem key={model} value={model} className="text-foreground hover:bg-purple-500/20">
+                        {model}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+            )}
+
+            {/* Color Selector */}
+            {needsColorSelection && (
+              <div className="mb-6">
+                <label className="block text-sm font-medium mb-3 text-purple-400">
+                  Couleur * {selectedColor && <span className="text-cyan-400">- {selectedColor}</span>}
+                </label>
+                <div className="flex flex-wrap gap-3">
+                  {caseColors.map((color) => (
+                    <button
+                      key={color.name}
+                      onClick={() => setSelectedColor(color.name)}
+                      className={`w-10 h-10 rounded-full border-2 transition-all ${
+                        selectedColor === color.name 
+                          ? "border-cyan-400 scale-110 ring-2 ring-cyan-400/50" 
+                          : "border-gray-600 hover:border-purple-400 hover:scale-105"
+                      }`}
+                      style={{ backgroundColor: color.hex }}
+                      title={color.name}
+                    />
+                  ))}
+                </div>
+              </div>
+            )}
+
             {/* Quantity Selector */}
             <div className="mb-6">
               <label className="block text-sm font-medium mb-3 text-purple-400">Quantite</label>
@@ -160,11 +229,23 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
               </div>
             </div>
 
+            {/* Missing selection warning */}
+            {!canPurchase && (
+              <div className="mb-4 p-4 bg-orange-500/10 border border-orange-500/30 rounded-xl">
+                <p className="text-orange-400 text-sm font-medium">
+                  Veuillez selectionner {!selectedModel && needsModelSelection ? "un modele iPhone" : ""} 
+                  {!selectedModel && needsModelSelection && !selectedColor && needsColorSelection ? " et " : ""}
+                  {!selectedColor && needsColorSelection ? "une couleur" : ""} pour continuer.
+                </p>
+              </div>
+            )}
+
             <div className="space-y-3 mb-8">
               <Button 
                 size="lg" 
-                className="w-full btn-cyber bg-gradient-to-r from-purple-600 via-pink-600 to-cyan-600 hover:from-purple-500 hover:via-pink-500 hover:to-cyan-500 text-white text-lg py-6 font-bold rounded-xl shadow-lg shadow-purple-500/30" 
+                className="w-full btn-cyber bg-gradient-to-r from-purple-600 via-pink-600 to-cyan-600 hover:from-purple-500 hover:via-pink-500 hover:to-cyan-500 text-white text-lg py-6 font-bold rounded-xl shadow-lg shadow-purple-500/30 disabled:opacity-50 disabled:cursor-not-allowed" 
                 onClick={handleBuyNow}
+                disabled={!canPurchase}
               >
                 <Zap className="w-5 h-5 mr-2" />
                 Commander Maintenant
@@ -173,9 +254,9 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
               <Button
                 size="lg"
                 variant="outline"
-                className="w-full border-2 border-purple-500/50 hover:border-purple-400 hover:bg-purple-500/10 text-foreground py-6 font-bold rounded-xl bg-transparent"
+                className="w-full border-2 border-purple-500/50 hover:border-purple-400 hover:bg-purple-500/10 text-foreground py-6 font-bold rounded-xl bg-transparent disabled:opacity-50 disabled:cursor-not-allowed"
                 onClick={handleAddToCart}
-                disabled={addedToCart}
+                disabled={addedToCart || !canPurchase}
               >
                 {addedToCart ? (
                   <>

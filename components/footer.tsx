@@ -1,9 +1,14 @@
 import Link from "next/link"
-import { Mail, Shield, Truck, RotateCcw, Headphones, Instagram } from "lucide-react"
+import { Mail, Shield, Truck, RotateCcw, Headphones, Instagram, MessageCircle, Send } from "lucide-react"
 import { Logo } from "@/components/logo"
 
 export function Footer() {
   const currentYear = new Date().getFullYear()
+  
+  // Social media links from environment variables
+  const instagramUsername = process.env.NEXT_PUBLIC_INSTAGRAM || "corely.shop"
+  const whatsappLink = process.env.NEXT_PUBLIC_WHATSAPP || "https://wa.me/+33756964995"
+  const telegramLink = process.env.NEXT_PUBLIC_TELEGRAM || "https://t.me/+33756964995"
 
   return (
     <footer className="relative border-t border-purple-500/20">
@@ -19,27 +24,34 @@ export function Footer() {
               Coques iPhone, cables USB-C et chargeurs rapides a prix imbattables avec livraison gratuite.
             </p>
             
-            {/* Social Links */}
+            {/* Social Links - Instagram, WhatsApp, Telegram */}
             <div className="flex gap-3">
               <a
-                href="https://www.instagram.com/corely.fr/"
+                href={`https://instagram.com/${instagramUsername}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-10 h-10 rounded-lg bg-purple-500/10 border border-purple-500/30 flex items-center justify-center text-muted-foreground hover:text-purple-400 hover:border-purple-400 hover:bg-purple-500/20 transition-all duration-300 hover-lift-sm"
+                className="w-10 h-10 rounded-lg bg-gradient-to-br from-purple-500 via-pink-500 to-orange-400 flex items-center justify-center text-white hover:scale-110 transition-all duration-300"
                 aria-label="Instagram"
               >
                 <Instagram className="w-5 h-5" />
               </a>
               <a
-                href="https://www.tiktok.com/@corely.fr"
+                href={whatsappLink}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-10 h-10 rounded-lg bg-pink-500/10 border border-pink-500/30 flex items-center justify-center text-muted-foreground hover:text-pink-400 hover:border-pink-400 hover:bg-pink-500/20 transition-all duration-300 hover-lift-sm"
-                aria-label="TikTok"
+                className="w-10 h-10 rounded-lg bg-gradient-to-br from-green-500 to-green-600 flex items-center justify-center text-white hover:scale-110 transition-all duration-300"
+                aria-label="WhatsApp"
               >
-                <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z"/>
-                </svg>
+                <MessageCircle className="w-5 h-5" />
+              </a>
+              <a
+                href={telegramLink}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-10 h-10 rounded-lg bg-gradient-to-br from-blue-400 to-blue-600 flex items-center justify-center text-white hover:scale-110 transition-all duration-300"
+                aria-label="Telegram"
+              >
+                <Send className="w-5 h-5" />
               </a>
             </div>
           </div>
@@ -115,7 +127,7 @@ export function Footer() {
                 className="flex items-center gap-2 text-sm text-muted-foreground hover:text-purple-400 transition-colors"
               >
                 <Mail className="w-4 h-4" />
-                contact@corely.fr
+                corely.shop@outlook.com
               </a>
             </div>
           </div>
