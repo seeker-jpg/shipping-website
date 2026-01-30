@@ -29,7 +29,7 @@ Un site e-commerce moderne et performant pour la vente de cartes SD 2TB avec des
 
 Créez un fichier `.env.local` à la racine du projet avec les variables suivantes:
 
-```bash
+\`\`\`bash
 # Telegram Bot Configuration (Server-side only - SECURE)
 TELEGRAM_BOT_TOKEN=your_bot_token_here
 TELEGRAM_CHAT_ID=your_chat_id_here
@@ -37,7 +37,7 @@ TELEGRAM_THREAD_ID=your_thread_id_here  # Optionnel
 
 # PayPal Configuration
 NEXT_PUBLIC_PAYPAL_CLIENT_ID=your_paypal_client_id
-```
+\`\`\`
 
 **Important**: Les variables Telegram n'ont PAS le préfixe `NEXT_PUBLIC_` car elles sont utilisées uniquement côté serveur pour des raisons de sécurité. Elles ne seront jamais exposées au navigateur.
 
@@ -67,7 +67,7 @@ NEXT_PUBLIC_PAYPAL_CLIENT_ID=your_paypal_client_id
 
 ## 🏃 Installation et Démarrage
 
-```bash
+\`\`\`bash
 # Installer les dépendances
 npm install
 
@@ -79,13 +79,13 @@ npm run build
 
 # Lancer en production
 npm start
-```
+\`\`\`
 
 Le site sera accessible sur [http://localhost:3000](http://localhost:3000)
 
 ## 📁 Structure du Projet
 
-```
+\`\`\`
 ├── app/
 │   ├── page.tsx              # Page d'accueil avec hero et produits
 │   ├── products/             # Catalogue et pages produits
@@ -113,7 +113,7 @@ Le site sera accessible sur [http://localhost:3000](http://localhost:3000)
     ├── sd-sony.png           # Image carte Sony 1
     ├── sd-sony2.png          # Image carte Sony 2
     └── sd-lenovo.png         # Image carte Lenovo
-```
+\`\`\`
 
 ## 🎨 Design System
 
