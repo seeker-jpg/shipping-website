@@ -33,7 +33,7 @@ export default function PrivacyPage() {
               <li>Adresse email</li>
               <li>Numero de telephone</li>
               <li>Adresse de livraison</li>
-              <li>Informations de paiement (traitees de maniere securisee par PayPal)</li>
+              <li>Informations de paiement (traitees de maniere securisee par Stripe ou PayPal)</li>
             </ul>
           </CardContent>
         </Card>
