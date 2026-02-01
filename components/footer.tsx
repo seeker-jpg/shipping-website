@@ -21,7 +21,7 @@ export function Footer() {
             <Logo className="mb-6" />
             <p className="text-muted-foreground text-sm mb-6 leading-relaxed">
               Votre boutique d'accessoires mobiles premium. 
-              Coques iPhone, cables USB-C et chargeurs rapides a prix imbattables avec livraison gratuite.
+              Coques iPhone, câbles USB C et chargeurs rapides haute performance à prix imbattables, avec livraison gratuite.
             </p>
             
             {/* Social Links - Instagram, WhatsApp, Telegram */}
