@@ -123,7 +123,7 @@ export function Footer() {
             {/* Contact Info */}
             <div className="mt-8 space-y-3">
               <a 
-                href="mailto:contact@corely.fr" 
+                href="mailto:corely.shop@outlook.com" 
                 className="flex items-center gap-2 text-sm text-muted-foreground hover:text-purple-400 transition-colors"
               >
                 <Mail className="w-4 h-4" />
