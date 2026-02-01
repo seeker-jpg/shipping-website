@@ -43,9 +43,7 @@ export default function TermsPage() {
               Tous nos prix sont affiches en euros et incluent la TVA applicable. Le prix affiche comprend la
               livraison gratuite en France metropolitaine et en Europe.
             </p>
-            <p>
-              Prix actuel : <strong className="text-cyan-400">4,99€ TTC</strong> avec livraison gratuite incluse.
-            </p>
+            
           </CardContent>
         </Card>
 
