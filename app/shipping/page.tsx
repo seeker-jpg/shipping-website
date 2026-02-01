@@ -174,8 +174,8 @@ export default function ShippingPage() {
                   Si vous rencontrez un probleme avec votre livraison, contactez-nous immediatement :
                 </p>
                 <p className="text-foreground font-semibold">
-                  Email : <span className="text-cyan-400">support@corely.fr</span>
-                  <br />Instagram : <span className="text-pink-400">@corely.fr</span>
+                  Email : <span className="text-cyan-400">corely.shop@outlook.com</span>
+                  <br />Instagram : <span className="text-pink-400">@corely.shop</span>
                 </p>
               </div>
             </div>
