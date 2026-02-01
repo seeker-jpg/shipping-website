@@ -175,7 +175,7 @@ export default function ShippingPage() {
                 </p>
                 <p className="text-foreground font-semibold">
                   Email : <span className="text-cyan-400">corely.shop@outlook.com</span>
-                  <br />Instagram : <span className="text-pink-400">@corely.fr</span>
+                  <br />Instagram : <span className="text-pink-400">@corely.shop</span>
                 </p>
               </div>
             </div>
