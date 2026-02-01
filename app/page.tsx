@@ -185,7 +185,7 @@ export default function HomePage() {
               </span>
             </h2>
             <p className="text-lg text-muted-foreground mb-16">
-              Vu sur TikTok et Instagram !
+              Vu sur TikTok ou Instagram !
             </p>
             
             <div className="grid grid-cols-3 gap-4 md:gap-8">
